@@ -26,12 +26,14 @@ export default function CourseSearchFilter() {
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "");
   const [level, setLevel] = useState(searchParams.get("level") || "");
+  const [sort, setSort] = useState(searchParams.get("sort") || "newest");
 
   // Update state when URL changes (e.g. going back/forward)
   useEffect(() => {
     setSearch(searchParams.get("search") || "");
     setCategory(searchParams.get("category") || "");
     setLevel(searchParams.get("level") || "");
+    setSort(searchParams.get("sort") || "newest");
   }, [searchParams]);
 
   const updateQueryParams = (params: Record<string, string>) => {
@@ -66,21 +68,21 @@ export default function CourseSearchFilter() {
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
-              updateQueryParams({ search: e.target.value, category, level, page: "1" });
+              updateQueryParams({ search: e.target.value, category, level, sort, page: "1" });
             }}
             className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
           />
         </div>
 
-        <div className="flex w-full md:w-auto gap-4">
+        <div className="flex flex-wrap w-full md:w-auto gap-4">
           {/* Category Dropdown */}
           <select
             value={category}
             onChange={(e) => {
               setCategory(e.target.value);
-              updateQueryParams({ search, category: e.target.value, level, page: "1" });
+              updateQueryParams({ search, category: e.target.value, level, sort, page: "1" });
             }}
-            className="flex-1 md:w-48 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer"
+            className="flex-1 min-w-[140px] px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer"
           >
             <option value="">All Categories</option>
             {CATEGORIES.map(cat => (
@@ -93,14 +95,29 @@ export default function CourseSearchFilter() {
             value={level}
             onChange={(e) => {
               setLevel(e.target.value);
-              updateQueryParams({ search, category, level: e.target.value, page: "1" });
+              updateQueryParams({ search, category, level: e.target.value, sort, page: "1" });
             }}
-            className="flex-1 md:w-40 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer"
+            className="flex-1 min-w-[120px] px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer"
           >
             <option value="">All Levels</option>
             {LEVELS.map(lvl => (
               <option key={lvl} value={lvl}>{lvl}</option>
             ))}
+          </select>
+
+          {/* Sort Dropdown */}
+          <select
+            value={sort}
+            onChange={(e) => {
+              setSort(e.target.value);
+              updateQueryParams({ search, category, level, sort: e.target.value, page: "1" });
+            }}
+            className="flex-1 min-w-[140px] px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none cursor-pointer font-medium"
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
           </select>
         </div>
       </div>

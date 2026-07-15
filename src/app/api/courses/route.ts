@@ -57,6 +57,7 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search") || "";
     const category = searchParams.get("category") || "";
     const level = searchParams.get("level") || "";
+    const sortParam = searchParams.get("sort") || "newest";
 
     const skip = (page - 1) * limit;
 
@@ -77,9 +78,15 @@ export async function GET(req: NextRequest) {
     if (level) {
       query.level = level;
     }
+    
+    // Build the sort object
+    let sortQuery: any = { _id: -1 }; // newest by default
+    if (sortParam === "oldest") sortQuery = { _id: 1 };
+    if (sortParam === "price_asc") sortQuery = { price: 1 };
+    if (sortParam === "price_desc") sortQuery = { price: -1 };
 
     const [courses, totalItems] = await Promise.all([
-      db.collection("courses").find(query).sort({ _id: -1 }).skip(skip).limit(limit).toArray(),
+      db.collection("courses").find(query).sort(sortQuery).skip(skip).limit(limit).toArray(),
       db.collection("courses").countDocuments(query),
     ]);
 

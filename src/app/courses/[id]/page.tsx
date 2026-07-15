@@ -43,6 +43,24 @@ export default async function CourseDetailsPage({ params }: Props) {
     notFound();
   }
 
+  // Fetch Related Courses
+  let relatedCourses: any[] = [];
+  try {
+    const rawRelated = await db.collection("courses")
+      .find({ category: course.category, _id: { $ne: new ObjectId(id) } })
+      .limit(3)
+      .toArray();
+      
+    relatedCourses = rawRelated.map(c => ({
+      ...c,
+      _id: c._id.toString(),
+      createdAt: c.createdAt?.toISOString() || new Date().toISOString(),
+      updatedAt: c.updatedAt?.toISOString() || new Date().toISOString(),
+    }));
+  } catch (error) {
+    console.error("Failed to fetch related courses");
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
       
@@ -160,6 +178,42 @@ export default async function CourseDetailsPage({ params }: Props) {
               </div>
             </div>
 
+            {/* Student Reviews (Static Demo) */}
+            <div className="bg-white p-8 rounded-3xl border border-slate-200/60 shadow-sm">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold text-slate-900">Student Reviews</h2>
+                <div className="flex items-center gap-2">
+                  <FaStar className="text-amber-400" size={24} />
+                  <span className="text-2xl font-black text-slate-900">4.9</span>
+                  <span className="text-slate-500">(128 ratings)</span>
+                </div>
+              </div>
+              
+              <div className="space-y-6">
+                {[
+                  { name: "Alex Johnson", text: "This course is exactly what I needed. The concepts are explained perfectly and the projects are very hands-on.", date: "1 week ago" },
+                  { name: "Sarah Williams", text: "I've taken many courses, but this one stands out. The instructor is knowledgeable and the pace is just right for beginners.", date: "3 weeks ago" }
+                ].map((review, idx) => (
+                  <div key={idx} className="pb-6 border-b border-slate-100 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-600">
+                        {review.name.charAt(0)}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-900">{review.name}</h4>
+                        <div className="flex items-center gap-2">
+                          <div className="flex text-amber-400 text-xs">
+                            <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+                          </div>
+                          <span className="text-xs text-slate-400">{review.date}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">{review.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Right Column - Sticky Sidebar */}
@@ -204,6 +258,46 @@ export default async function CourseDetailsPage({ params }: Props) {
 
         </div>
       </div>
+
+      {/* Related Courses Section */}
+      {relatedCourses.length > 0 && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-slate-900">Related Courses</h2>
+            <Link href={`/courses?category=${encodeURIComponent(course.category)}`} className="text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+              View All {course.category} Courses &rarr;
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Note: In a real app we'd use CourseCard, but this is a Server Component and CourseCard expects Course type. We'll render simplified cards here. */}
+            {relatedCourses.map((related: any) => (
+              <Link href={`/courses/${related._id}`} key={related._id} className="group flex flex-col bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-indigo-200 hover:shadow-xl transition-all duration-300">
+                <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+                  <Image 
+                    src={related.thumbnailUrl} 
+                    alt={related.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    unoptimized
+                  />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-slate-700">
+                    {related.level}
+                  </div>
+                </div>
+                <div className="p-5 flex flex-col flex-grow">
+                  <h3 className="text-lg font-bold text-slate-900 line-clamp-2 group-hover:text-indigo-600 transition-colors mb-2">
+                    {related.title}
+                  </h3>
+                  <div className="mt-auto pt-4 flex items-center justify-between border-t border-slate-100">
+                    <span className="font-bold text-slate-900">${related.price.toFixed(2)}</span>
+                    <span className="text-xs text-slate-500 flex items-center gap-1"><FaStar className="text-amber-400"/> 4.8</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

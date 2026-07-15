@@ -31,6 +31,7 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -193,6 +194,20 @@ export default function LoginPage() {
                 <FaArrowRight size={11} className="ml-1" />
               </>
             )}
+          </Button>
+
+          {/* Demo Admin Login Button */}
+          <Button
+            type="button"
+            onClick={() => {
+              setValue("email", "mosharof.dev@gmail.com");
+              setValue("password", "Pa$$w0rd!");
+              toast.success("Demo credentials loaded! Click Sign In.");
+            }}
+            className="w-full py-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm mt-2"
+          >
+            <FaEye size={14} className="text-emerald-600" />
+            <span>Load Demo Credentials (For Examiner)</span>
           </Button>
 
           {/* OR CONTINUE WITH Separator */}

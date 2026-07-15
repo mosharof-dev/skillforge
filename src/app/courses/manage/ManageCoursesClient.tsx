@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { FaEye, FaPen, FaTrash, FaPlus, FaClock, FaLayerGroup } from "react-icons/fa";
 import { Course } from "@/components/courses/CourseCard";
 import { AlertDialog, Button } from "@heroui/react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function ManageCoursesClient() {
   const router = useRouter();
@@ -60,8 +61,15 @@ export default function ManageCoursesClient() {
     });
   };
 
+  // Dynamic Data for Analytics (Real Data from Database)
+  const chartData = courses.map((course) => ({
+    name: course.title.length > 15 ? course.title.substring(0, 15) + "..." : course.title,
+    price: course.price,
+    fullTitle: course.title
+  }));
+
   return (
-    <div className=" bg-slate-50 py-12">
+    <div className=" bg-slate-50 py-12 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Dashboard Header */}
@@ -79,6 +87,42 @@ export default function ManageCoursesClient() {
             </button>
           </Link>
         </div>
+
+        {/* Analytics Section (Recharts with Real Data) */}
+        {!isLoading && courses.length > 0 && (
+          <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 mb-8">
+            <div className="mb-6">
+              <h2 className="text-xl font-bold text-slate-900">Course Pricing Analysis</h2>
+              <p className="text-sm text-slate-500">Price comparison across your published courses</p>
+            </div>
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={chartData}
+                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                >
+                  <defs>
+                    <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#4f46e5" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="name" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} dy={10} />
+                  <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)' }}
+                    itemStyle={{ fontWeight: 'bold', color: '#4f46e5' }}
+                    labelStyle={{ color: '#0f172a', marginBottom: '4px' }}
+                    formatter={(value: any) => [`$${Number(value).toFixed(2)}`, 'Price']}
+                    labelFormatter={(label, payload) => payload && payload.length ? payload[0].payload.fullTitle : label}
+                  />
+                  <Bar dataKey="price" fill="url(#colorPrice)" radius={[6, 6, 0, 0]} maxBarSize={60} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
 
         {/* Premium Courses List */}
         <div className="space-y-6">

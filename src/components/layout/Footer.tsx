@@ -44,9 +44,9 @@ export default function Footer() {
   const companyLinks = [
     { name: "About Us", path: "/about" },
     { name: "Contact Us", path: "/contact" },
-    { name: "FAQ", path: "#" },
-    { name: "Terms of Service", path: "#" },
-    { name: "Privacy Policy", path: "#" },
+    { name: "FAQ", path: "/" },
+    { name: "Terms of Service", path: "/" },
+    { name: "Privacy Policy", path: "/" },
   ];
 
   return (
@@ -245,13 +245,13 @@ export default function Footer() {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           <p>© {new Date().getFullYear()} SkillForge. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/" className="hover:text-white transition-colors">
               Terms of Use
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/" className="hover:text-white transition-colors">
               Sitemap
             </Link>
           </div>
