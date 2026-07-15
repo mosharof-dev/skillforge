@@ -12,7 +12,7 @@ import {
   FaPhoneAlt,
   FaMapMarkerAlt,
   FaPaperPlane,
-  FaCheck
+  FaCheck,
 } from "react-icons/fa";
 
 export default function Footer() {
@@ -33,7 +33,10 @@ export default function Footer() {
   const exploreLinks = [
     { name: "Explore Courses", path: "/courses" },
     { name: "Web Development", path: "/courses?category=web-development" },
-    { name: "Mobile Development", path: "/courses?category=mobile-development" },
+    {
+      name: "Mobile Development",
+      path: "/courses?category=mobile-development",
+    },
     { name: "UI/UX Design", path: "/courses?category=ui-ux" },
     { name: "Data Science", path: "/courses?category=data-science" },
   ];
@@ -46,8 +49,6 @@ export default function Footer() {
     { name: "Privacy Policy", path: "#" },
   ];
 
-
-
   return (
     <footer className="bg-slate-950 text-slate-400 border-t border-slate-900 pt-16 pb-8 relative overflow-hidden">
       {/* Subtle background glow */}
@@ -56,7 +57,6 @@ export default function Footer() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-slate-900">
-          
           {/* Brand Column */}
           <div className="lg:col-span-4 flex flex-col gap-6">
             <Link href="/" className="flex items-center gap-2 group self-start">
@@ -82,17 +82,39 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-              Empower your future with industry-relevant skills. Access top-tier online courses, hands-on projects, and expert mentorship on SkillForge.
+              Empower your future with industry-relevant skills. Access top-tier
+              online courses, hands-on projects, and expert mentorship on
+              SkillForge.
             </p>
-            
+
             {/* Social Links */}
             <div className="flex items-center gap-3 mt-2">
               {[
-                { icon: <FaFacebookF size={14} />, href: "https://facebook.com", label: "Facebook" },
-                { icon: <FaTwitter size={14} />, href: "https://twitter.com", label: "Twitter" },
-                { icon: <FaLinkedinIn size={14} />, href: "https://linkedin.com", label: "LinkedIn" },
-                { icon: <FaGithub size={14} />, href: "https://github.com", label: "GitHub" },
-                { icon: <FaYoutube size={14} />, href: "https://youtube.com", label: "YouTube" }
+                {
+                  icon: <FaFacebookF size={14} />,
+                  href: "https://facebook.com",
+                  label: "Facebook",
+                },
+                {
+                  icon: <FaTwitter size={14} />,
+                  href: "https://twitter.com",
+                  label: "Twitter",
+                },
+                {
+                  icon: <FaLinkedinIn size={14} />,
+                  href: "https://linkedin.com",
+                  label: "LinkedIn",
+                },
+                {
+                  icon: <FaGithub size={14} />,
+                  href: "https://github.com",
+                  label: "GitHub",
+                },
+                {
+                  icon: <FaYoutube size={14} />,
+                  href: "https://youtube.com",
+                  label: "YouTube",
+                },
               ].map((social, index) => (
                 <a
                   key={index}
@@ -110,12 +132,14 @@ export default function Footer() {
 
           {/* Quick Links Column 1 - Explore */}
           <div className="lg:col-span-2 flex flex-col gap-4">
-            <h3 className="text-white font-semibold text-sm tracking-wider uppercase">Explore</h3>
+            <h3 className="text-white font-semibold text-sm tracking-wider uppercase">
+              Explore
+            </h3>
             <ul className="flex flex-col gap-3 text-sm">
               {exploreLinks.map((link, index) => (
                 <li key={index}>
-                  <Link 
-                    href={link.path} 
+                  <Link
+                    href={link.path}
                     className="hover:text-white hover:pl-1 transition-all duration-200"
                   >
                     {link.name}
@@ -127,12 +151,14 @@ export default function Footer() {
 
           {/* Quick Links Column 2 - Company */}
           <div className="lg:col-span-2 flex flex-col gap-4">
-            <h3 className="text-white font-semibold text-sm tracking-wider uppercase">Company</h3>
+            <h3 className="text-white font-semibold text-sm tracking-wider uppercase">
+              Company
+            </h3>
             <ul className="flex flex-col gap-3 text-sm">
               {companyLinks.map((link, index) => (
                 <li key={index}>
-                  <Link 
-                    href={link.path} 
+                  <Link
+                    href={link.path}
                     className="hover:text-white hover:pl-1 transition-all duration-200"
                   >
                     {link.name}
@@ -146,11 +172,14 @@ export default function Footer() {
           <div className="lg:col-span-4 flex flex-col gap-6">
             {/* Newsletter Subscription */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-white font-semibold text-sm tracking-wider uppercase">Newsletter</h3>
+              <h3 className="text-white font-semibold text-sm tracking-wider uppercase">
+                Newsletter
+              </h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Subscribe to receive updates, new course announcements, and special offers.
+                Subscribe to receive updates, new course announcements, and
+                special offers.
               </p>
-              
+
               <form onSubmit={handleSubscribe} className="relative mt-2">
                 <input
                   type="email"
@@ -173,7 +202,7 @@ export default function Footer() {
                   )}
                 </button>
               </form>
-              
+
               {isSubscribed && (
                 <p className="text-emerald-500 text-xs font-medium animate-fadeIn">
                   Thanks for subscribing! Check your inbox soon.
@@ -184,37 +213,45 @@ export default function Footer() {
             {/* Direct Contact Info */}
             <div className="flex flex-col gap-3 text-sm pt-2 border-t border-slate-900/50">
               <div className="flex items-center gap-3">
-                <FaMapMarkerAlt className="text-indigo-500 shrink-0" size={14} />
+                <FaMapMarkerAlt
+                  className="text-indigo-500 shrink-0"
+                  size={14}
+                />
                 <span>123 Knowledge Lane, Tech City, TC 94821</span>
               </div>
               <div className="flex items-center gap-3">
                 <FaPhoneAlt className="text-indigo-500 shrink-0" size={14} />
-                <a href="tel:+1234567890" className="hover:text-white transition-colors">
+                <a
+                  href="tel:+1234567890"
+                  className="hover:text-white transition-colors"
+                >
                   +1 (234) 567-890
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <FaEnvelope className="text-indigo-500 shrink-0" size={14} />
-                <a href="mailto:support@skillforge.com" className="hover:text-white transition-colors">
+                <a
+                  href="mailto:support@skillforge.com"
+                  className="hover:text-white transition-colors"
+                >
                   support@skillforge.com
                 </a>
               </div>
             </div>
           </div>
-
         </div>
 
         {/* Bottom Section */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           <p>© {new Date().getFullYear()} SkillForge. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            <Link href="#" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="#" className="hover:text-white transition-colors">
               Terms of Use
             </Link>
-            <Link href="/sitemap" className="hover:text-white transition-colors">
+            <Link href="#" className="hover:text-white transition-colors">
               Sitemap
             </Link>
           </div>

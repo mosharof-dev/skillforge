@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 
 export default function Testimonials() {
@@ -28,16 +29,16 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-slate-50 relative overflow-hidden">
+    <section className="py-20 bg-slate-50 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
             Loved by Thousands of Students
           </h2>
           <p className="text-lg text-slate-600">
-            Don't just take our word for it. Read what our successful graduates have to say about their learning experience.
+            Don&apos;t just take our word for it. Read what our successful graduates have to say about their learning experience.
           </p>
         </div>
 
@@ -51,12 +52,14 @@ export default function Testimonials() {
                 <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
               </div>
               <p className="text-slate-700 mb-8 italic leading-relaxed">
-                "{testimonial.content}"
+                &quot;{testimonial.content}&quot;
               </p>
               <div className="flex items-center gap-4">
-                <img 
+                <Image
                   src={testimonial.image} 
                   alt={testimonial.name} 
+                  width={48}
+                  height={48}
                   className="w-12 h-12 rounded-full object-cover border-2 border-indigo-100"
                 />
                 <div>

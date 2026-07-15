@@ -30,14 +30,14 @@ export default function FAQ() {
   ];
 
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-white">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-slate-600">
-            Got questions? We've got answers. If you have some other questions, feel free to contact us.
+            Got questions? We&apos;ve got answers. If you have some other questions, feel free to contact us.
           </p>
         </div>
 
