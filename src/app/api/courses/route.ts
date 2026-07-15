@@ -49,10 +49,48 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const courses = await db.collection("courses").find({}).sort({ _id: -1 }).toArray();
-    return NextResponse.json(courses, { status: 200 });
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "9");
+    const search = searchParams.get("search") || "";
+    const category = searchParams.get("category") || "";
+    const level = searchParams.get("level") || "";
+
+    const skip = (page - 1) * limit;
+
+    // Build the query object
+    const query: any = {};
+
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    if (level) {
+      query.level = level;
+    }
+
+    const [courses, totalItems] = await Promise.all([
+      db.collection("courses").find(query).sort({ _id: -1 }).skip(skip).limit(limit).toArray(),
+      db.collection("courses").countDocuments(query),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return NextResponse.json({
+      courses,
+      totalItems,
+      totalPages,
+      currentPage: page,
+    }, { status: 200 });
   } catch (error) {
     console.error("Failed to fetch courses:", error);
     return NextResponse.json(
