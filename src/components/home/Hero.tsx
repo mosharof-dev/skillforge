@@ -15,7 +15,7 @@ export default function Hero() {
         <div className="w-[500px] h-[500px] rounded-full bg-slate-50 blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
           
           {/* Left Content (Text) */}

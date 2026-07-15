@@ -1,26 +1,68 @@
 "use client";
 
-export default function FeaturedCourses() {
+import React from "react";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import CourseCard, { Course } from "@/components/courses/CourseCard";
+import { FaArrowRight } from "react-icons/fa";
+
+type FeaturedProps = {
+  courses: Course[];
+};
+
+export default function FeaturedCourses({ courses }: FeaturedProps) {
+  if (!courses || courses.length === 0) {
+    return null; // Don't render the section if there are no courses
+  }
+
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-          Featured Courses
-        </h2>
-        <p className="text-slate-600 max-w-2xl mx-auto mb-12 text-lg">
-          Explore our most popular and highly rated courses.
-        </p>
+    <section className="py-24 bg-white w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Coming Soon Placeholder */}
-        <div className="bg-white border border-slate-200 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center">
-          <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-4">
-            <span className="text-2xl">⏳</span>
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="max-w-2xl">
+            <h2 className="text-sm font-bold text-indigo-600 tracking-widest uppercase mb-3">
+              Learn from the best
+            </h2>
+            <h3 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+              Featured Courses
+            </h3>
           </div>
-          <h3 className="text-xl font-semibold text-slate-800 mb-2">Content Coming Soon</h3>
-          <p className="text-slate-500">
-            Courses will be loaded from the database dynamically. Stay tuned!
-          </p>
+          <Link href="/courses">
+            <button className="group flex items-center gap-2 font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-6 py-3 rounded-full transition-all">
+              Explore All <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </Link>
         </div>
+
+        <div className="relative">
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={32}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true, dynamicBullets: true }}
+            autoplay={{ delay: 3500, disableOnInteraction: false }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+            className="pb-16 px-4 -mx-4" // Padding bottom for pagination bullets
+          >
+            {courses.map((course) => (
+              <SwiperSlide key={course._id} className="h-auto">
+                <div className="h-full py-4">
+                  <CourseCard course={course} />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
       </div>
     </section>
   );
