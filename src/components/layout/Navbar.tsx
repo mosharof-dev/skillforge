@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
@@ -30,28 +31,17 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-slate-200">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Pro Logo Section */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <svg
-              className="w-8 h-8 text-indigo-600 transition-transform duration-300 group-hover:rotate-12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path
-                d="M12 2L2 7l10 5 10-5-10-5z"
-                fill="currentColor"
-                fillOpacity="0.2"
-              />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-            <span className="font-extrabold text-2xl tracking-tighter text-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-indigo-200 shadow-md">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <span className="font-bold text-xl tracking-tight text-slate-800">
               Skill<span className="text-indigo-600">Forge</span>
             </span>
           </Link>
@@ -61,16 +51,17 @@ export default function Navbar() {
             {navLinks.map((link) => {
               const isActive = pathname === link.path;
               return (
-                <Link
-                  key={link.name}
+                <Link 
+                  key={link.name} 
                   href={link.path}
-                  className={`text-sm font-medium transition-colors relative after:content-[''] after:absolute after:w-full after:h-[2px] after:-bottom-1 after:left-0 after:bg-indigo-600 after:transition-transform after:duration-300 ${
-                    isActive
-                      ? "text-indigo-600 after:scale-x-100 after:origin-bottom-left"
-                      : "text-slate-600 hover:text-indigo-600 after:scale-x-0 after:origin-bottom-right hover:after:scale-x-100 hover:after:origin-bottom-left"
+                  className={`text-sm font-medium transition-colors hover:text-indigo-600 relative py-2 ${
+                    isActive ? "text-indigo-600" : "text-slate-600"
                   }`}
                 >
                   {link.name}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 rounded-full" />
+                  )}
                 </Link>
               );
             })}
@@ -84,10 +75,13 @@ export default function Navbar() {
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-indigo-100 shadow-sm shrink-0">
-                    <img 
+                    <Image 
                       src={session.user.image || `https://ui-avatars.com/api/?name=${session.user.name || "U"}&background=c7d2fe&color=4f46e5`}
                       alt="Profile"
+                      width={36}
+                      height={36}
                       className="w-full h-full object-cover"
+                      unoptimized
                     />
                   </div>
                   <span className="text-sm font-bold text-slate-700 hidden sm:block truncate max-w-[150px]">
