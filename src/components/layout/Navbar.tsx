@@ -2,22 +2,31 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useSession, signOut } from "@/lib/auth-client";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
   
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  const navLinks = [
-    { name: "Explore Courses", path: "/courses" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
-     { name: "Add Course", path: "/courses/add" },
-    { name: "Manage Course", path: "/courses/manage" },
-  ];
+  const navLinks = session?.user
+    ? [
+        { name: "Explore Courses", path: "/courses" },
+        { name: "About", path: "/about" },
+        { name: "Contact", path: "/contact" },
+        { name: "Add Course", path: "/courses/add" },
+        { name: "Manage Course", path: "/courses/manage" },
+      ]
+    : [
+        { name: "Explore Courses", path: "/courses" },
+        { name: "About", path: "/about" },
+        { name: "Contact", path: "/contact" },
+      ];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-slate-200">
@@ -69,16 +78,51 @@ export default function Navbar() {
 
           {/* Desktop Action Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/login">
-              <button className="px-5 py-2.5 text-sm font-semibold hover:bg-indigo-200 bg-indigo-50 text-indigo-600 rounded-lg transition-all active:scale-95">
-                Log In
-              </button>
-            </Link>
-            <Link href="/register">
-              <button className="px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 transition-all active:scale-95">
-                Sign Up Free
-              </button>
-            </Link>
+            {isPending ? (
+              <div className="w-9 h-9 rounded-full bg-slate-200 animate-pulse" />
+            ) : session?.user ? (
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-indigo-100 shadow-sm shrink-0">
+                    <img 
+                      src={session.user.image || `https://ui-avatars.com/api/?name=${session.user.name || "U"}&background=c7d2fe&color=4f46e5`}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <span className="text-sm font-bold text-slate-700 hidden sm:block truncate max-w-[150px]">
+                    {session.user.name || "User"}
+                  </span>
+                </div>
+                <button
+                  onClick={async () => {
+                    await signOut({
+                      fetchOptions: {
+                        onSuccess: () => {
+                          router.push("/");
+                        },
+                      },
+                    });
+                  }}
+                  className="px-4 py-2 text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors active:scale-95"
+                >
+                  Log Out
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link href="/login">
+                  <button className="px-5 py-2.5 text-sm font-semibold hover:bg-indigo-200 bg-indigo-50 text-indigo-600 rounded-lg transition-all active:scale-95">
+                    Log In
+                  </button>
+                </Link>
+                <Link href="/register">
+                  <button className="px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 transition-all active:scale-95">
+                    Sign Up Free
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -136,16 +180,38 @@ export default function Navbar() {
             })}
 
             <div className="pt-5 mt-4 border-t border-slate-100 flex flex-col gap-3">
-              <Link href="/login" onClick={toggleMobileMenu}>
-                <button className="w-full px-4 py-3 text-base font-semibold text-slate-700 bg-slate-50 border border-slate-200 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-colors active:scale-95">
-                  Log In
+              {isPending ? (
+                <div className="w-full h-10 rounded-lg bg-slate-200 animate-pulse" />
+              ) : session?.user ? (
+                <button
+                  onClick={async () => {
+                    toggleMobileMenu();
+                    await signOut({
+                      fetchOptions: {
+                        onSuccess: () => {
+                          router.push("/");
+                        },
+                      },
+                    });
+                  }}
+                  className="w-full px-4 py-3 text-base font-semibold text-white bg-rose-600 rounded-lg hover:bg-rose-700 transition-colors active:scale-95"
+                >
+                  Log Out
                 </button>
-              </Link>
-              <Link href="/register" onClick={toggleMobileMenu}>
-                <button className="w-full px-4 py-3 text-base font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors active:scale-95">
-                  Sign Up Free
-                </button>
-              </Link>
+              ) : (
+                <>
+                  <Link href="/login" onClick={toggleMobileMenu}>
+                    <button className="w-full px-4 py-3 text-base font-semibold text-slate-700 bg-slate-50 border border-slate-200 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-colors active:scale-95">
+                      Log In
+                    </button>
+                  </Link>
+                  <Link href="/register" onClick={toggleMobileMenu}>
+                    <button className="w-full px-4 py-3 text-base font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors active:scale-95">
+                      Sign Up Free
+                    </button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
