@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 SkillForge - Empowering the Next Generation of Tech Leaders
 
-## Getting Started
+Welcome to **SkillForge**, a production-ready Full-Stack Educational Platform. SkillForge bridges the gap between academic theory and practical industry demands by offering high-quality, project-centric courses in Web Development, Digital Marketing, Video Editing, and more.
 
-First, run the development server:
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen.svg?style=for-the-badge)](https://skillforge-orpin.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2-black.svg?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌟 Key Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **🔐 Robust Authentication & Security:** 
+  - JWT/Session-based authentication powered by `better-auth`.
+  - Next.js Proxy/Middleware protection for private routes (e.g., Dashboard, Add/Edit Course).
+  - Secure API endpoints with Ownership Authorization (Instructors can only edit/delete their own courses).
+- **📊 Interactive Analytics Dashboard:**
+  - Dynamic `Recharts` integration showing real-time **Course Pricing Analysis** across published courses.
+- **🔍 Advanced Search, Filter & Sort:**
+  - Real-time MongoDB aggregation for searching courses by title, filtering by category/level, and sorting by Newest, Oldest, or Price (Low to High / High to Low).
+- **🎨 Premium UI/UX:**
+  - Built with Tailwind CSS and NextUI/HeroUI for a sleek, modern, and accessible design.
+  - Pro-level animations, interactive hover states, glassmorphism, and responsive layouts across all devices.
+  - Custom global route loading animations (`loading.tsx`) and beautiful Skeleton Loaders.
+- **📚 Course Management:**
+  - Full CRUD functionality for Instructors. Add, View, Edit, and Delete courses directly from the user-friendly Dashboard.
+- **💡 Real-world Integrations:**
+  - Simulated student reviews, automated category-based "Related Courses" suggestions, and completely dynamic routing.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Technology Stack
 
-To learn more about Next.js, take a look at the following resources:
+| Category | Technology |
+| :--- | :--- |
+| **Frontend** | Next.js 16 (App Router), React, TypeScript |
+| **Styling** | Tailwind CSS, HeroUI, React Icons |
+| **Backend** | Next.js API Routes (Serverless Functions) |
+| **Database** | MongoDB (Native Driver) |
+| **Authentication** | Better-Auth (MongoDB Adapter & JWT Plugin) |
+| **Data Visualization**| Recharts |
+| **Deployment** | Vercel |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ⚙️ Local Setup & Installation
 
-## Deploy on Vercel
+To run this project locally, follow these steps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/mosharof-dev/skillforge.git
+   cd skillforge
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Set up Environment Variables:**
+   Create a `.env` file in the root directory and add the following:
+   ```env
+   MONGODB_URI=your_mongodb_connection_string
+   BETTER_AUTH_SECRET=your_super_secret_string
+   BETTER_AUTH_URL=http://localhost:3000
+   GOOGLE_CLIENT_ID=optional_google_client_id
+   GOOGLE_CLIENT_SECRET=optional_google_client_secret
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser:**
+   Navigate to `http://localhost:3000` to see the application in action.
+
+---
+
+## 🔐 Demo Credentials
+
+For quick access to the Instructor Dashboard, you can use the following demo account (or click the "Load Demo Credentials" button on the login page):
+
+- **Email:** `mosharof.dev@gmail.com`
+- **Password:** `Pa$$w0rd!`
+
+---
+
+## 👨‍💻 Author
+
+Developed with ❤️ by ** Mosharof**
+
+- GitHub: [@mosharof-dev](https://github.com/mosharof-dev)
+- Email: [mosharof.dev@gmail.com](mailto:mosharof.dev@gmail.com)
